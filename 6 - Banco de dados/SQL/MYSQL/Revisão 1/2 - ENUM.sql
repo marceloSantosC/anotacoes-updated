@@ -1,0 +1,10 @@
+CREATE TABLE tipos_numericos (
+	#INT: ATÉ 11 CASAS
+    _INT INT,
+    
+	# FLOAT: 10 É O NÚMERO TOTAL DE CASAS E 2 SÃO AS APÓS A VÍRGULA
+	_FLOAT FLOAT (10,2),
+
+    # SINTAXE DE ENUM
+    _SEXO ENUM('F', 'M', 'N/A')
+);
