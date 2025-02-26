@@ -1,0 +1,72 @@
+// Versão do protobuf
+syntax = "proto3";
+
+// Declaração de package para evitar name clash
+package io.test;
+
+// Package que será usado para gerar classe Java, será io.test sem essa definição
+option java_package = "com.java";
+
+// Mensagem simples
+message Test {
+  reserved 1, 2, 3;
+  int32 id = 4;
+  string name = 5;
+
+}
+
+// Definição de enum básica
+// Nomes de constantes não podem ser repetidas no mesmo arquivo
+enum Status {
+  reserved "DONE"; // Constantes deletadas devem ser reservadas
+  STATUS_UNSPECIFIED = 0;
+  STARTED = 1;
+  IN_PROGRESS = 2;
+  // DONE = 3;
+  COMPLETED = 4;
+}
+
+// Enum com alias
+enum Color {
+  option allow_alias = true; // permite ter 2 constantes com mesmo valor
+  COLOR_UNSPECIFIED = 0;
+  RED = 1;
+  RED_1 = 1; // Alias de red,
+}
+
+// import "myproject/other_protos.proto";
+// É possível importar outros arquivos e usar as messages definidas neles
+
+// Nested message, é possível usar messages como tipos de fields de outras messages
+message Nested {
+
+  // Declarar enum dentro de message é possível
+  enum NestedOpt {
+    OPT_UNKNOWN = 0;
+    OPT_1 = 1;
+  }
+
+  NestedOpt nestedOpt = 3;
+  string value = 1;
+  string otherValue = 2;
+
+}
+
+message Root {
+  repeated Nested nested = 1; // List<Nested>
+}
+
+
+
+
+// Any é um tipo genérico, similar a any de go e Object em Java e suporta guardar qualquer tipo
+import "google/protobuf/any.proto";
+message ErrorStatus {
+  string message = 1;
+  repeated google.protobuf.Any details = 2;
+}
+
+// Map é uma coleção de key value não ordenada
+message MapExample {
+  map<string, int32> projects = 1;
+}
